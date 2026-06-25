@@ -99,7 +99,9 @@
   }
 
   if (quoteForm) {
-    quoteForm.addEventListener('submit', (e) => {
+    const submitBtn = quoteForm.querySelector('button[type="submit"]');
+
+    quoteForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       formStatus.hidden = true;
 
@@ -125,30 +127,64 @@
         return;
       }
 
+      const formId = window.FORMSPREE_FORM_ID;
+      if (!formId) {
+        formStatus.textContent = 'Form is not connected yet. Please contact us at (520) 664-7057.';
+        formStatus.className = 'form-note form-note--error';
+        formStatus.hidden = false;
+        return;
+      }
+
       const data = new FormData(quoteForm);
-      const subject = encodeURIComponent('Quote Request — Sunset Sky Landscape');
-      const body = encodeURIComponent(
-        [
-          `Name: ${data.get('first_name')} ${data.get('last_name')}`,
-          `Help Type: ${data.get('help_type')}`,
-          `Contact Preference: ${data.get('contact_pref')}`,
-          `Address: ${data.get('address')}`,
-          `Email: ${data.get('email')}`,
-          `Phone: ${data.get('phone')}`,
-          '',
-          'Message:',
-          data.get('message'),
-        ].join('\n')
-      );
+      const payload = {
+        first_name: data.get('first_name'),
+        last_name: data.get('last_name'),
+        name: `${data.get('first_name')} ${data.get('last_name')}`,
+        email: data.get('email'),
+        phone: data.get('phone'),
+        address: data.get('address'),
+        help_type: data.get('help_type'),
+        contact_pref: data.get('contact_pref'),
+        message: data.get('message'),
+        _replyto: data.get('email'),
+        _subject: 'New Quote Request — Sunset Sky Landscape',
+      };
 
-      window.location.href = `mailto:sunsetskylandscape@gmail.com?subject=${subject}&body=${body}`;
+      const defaultLabel = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+      }
 
-      formStatus.textContent = 'Thank you! Your email client should open — send the message to complete your request.';
-      formStatus.className = 'form-note form-note--success';
-      formStatus.hidden = false;
-      quoteForm.reset();
+      try {
+        const response = await fetch(`https://formspree.io/f/${formId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
 
-      setTimeout(closeQuoteModal, 3000);
+        if (!response.ok) {
+          throw new Error('Submit failed');
+        }
+
+        formStatus.textContent = 'Thank you! We received your request and will respond promptly.';
+        formStatus.className = 'form-note form-note--success';
+        formStatus.hidden = false;
+        quoteForm.reset();
+        setTimeout(closeQuoteModal, 3000);
+      } catch (err) {
+        formStatus.textContent = 'Something went wrong. Please call us at (520) 664-7057.';
+        formStatus.className = 'form-note form-note--error';
+        formStatus.hidden = false;
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = defaultLabel;
+        }
+      }
     });
   }
 
