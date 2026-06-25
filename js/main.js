@@ -59,10 +59,23 @@
   const modal = document.getElementById('quote-modal');
   const quoteForm = document.getElementById('quote-form');
   const formStatus = document.getElementById('form-status');
+  const formSuccess = document.getElementById('form-success');
   let lastFocus = null;
+
+  function hideFormSuccess() {
+    if (!formSuccess) return;
+    formSuccess.hidden = true;
+  }
+
+  function showFormSuccess() {
+    if (!formSuccess) return;
+    formSuccess.hidden = false;
+  }
 
   function openQuoteModal() {
     if (!modal) return;
+    hideFormSuccess();
+    if (formStatus) formStatus.hidden = true;
     lastFocus = document.activeElement;
     modal.classList.add('modal--open');
     modal.setAttribute('aria-hidden', 'false');
@@ -76,6 +89,8 @@
     modal.classList.remove('modal--open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    hideFormSuccess();
+    if (formStatus) formStatus.hidden = true;
     if (lastFocus) lastFocus.focus();
   }
 
@@ -170,11 +185,9 @@
           throw new Error('Submit failed');
         }
 
-        formStatus.textContent = 'Thank you! We received your request and will respond promptly.';
-        formStatus.className = 'form-note form-note--success';
-        formStatus.hidden = false;
         quoteForm.reset();
-        setTimeout(closeQuoteModal, 3000);
+        showFormSuccess();
+        setTimeout(closeQuoteModal, 5000);
       } catch (err) {
         formStatus.textContent = 'Something went wrong. Please call us at (520) 664-7057.';
         formStatus.className = 'form-note form-note--error';
