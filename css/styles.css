@@ -483,6 +483,19 @@ button {
   margin-bottom: 1.25rem;
 }
 
+.hero__title-main,
+.hero__title-sub {
+  display: block;
+}
+
+.hero__title-sub {
+  margin-top: 0.2em;
+  font-size: 0.72em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  opacity: 0.92;
+}
+
 .hero__subtitle {
   font-size: 1.1rem;
   font-weight: 300;
@@ -1370,8 +1383,9 @@ fieldset {
     margin-bottom: 0.85rem;
   }
 
-  .hero__title br {
-    display: none;
+  .hero__title-sub {
+    font-size: 0.68em;
+    margin-top: 0.28em;
   }
 
   .hero__subtitle {
