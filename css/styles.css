@@ -414,12 +414,14 @@ button {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    135deg,
-    rgba(28, 33, 31, 0.55) 0%,
-    rgba(28, 33, 31, 0.35) 50%,
-    rgba(28, 33, 31, 0.5) 100%
-  );
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 55%, rgba(12, 16, 15, 0.55) 0%, rgba(12, 16, 15, 0.25) 55%, transparent 75%),
+    linear-gradient(
+      180deg,
+      rgba(20, 24, 23, 0.4) 0%,
+      rgba(20, 24, 23, 0.55) 45%,
+      rgba(12, 16, 15, 0.78) 100%
+    );
 }
 
 .hero::before {
@@ -459,7 +461,9 @@ button {
 .hero__content {
   position: relative;
   z-index: 3;
-  max-width: 720px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
   padding-top: calc(var(--header-height) + 2rem);
 }
 
@@ -481,6 +485,7 @@ button {
   text-transform: uppercase;
   color: #fff;
   margin-bottom: 1.25rem;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
 }
 
 .hero__title-main,
@@ -499,15 +504,17 @@ button {
 .hero__subtitle {
   font-size: 1.1rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2.5rem;
-  max-width: 480px;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 auto 2.5rem;
+  max-width: 520px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
 }
 
 .hero__cta {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
   position: relative;
   z-index: 4;
 }
@@ -613,6 +620,7 @@ button {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--color-text);
+  text-align: center;
   box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 1);
   transition: all var(--transition);
 }
@@ -1342,13 +1350,15 @@ fieldset {
   }
 
   .hero__overlay {
-    inset: auto 0 0 0;
-    height: 40%;
-    background: linear-gradient(
-      to top,
-      rgba(20, 24, 23, 0.45) 0%,
-      transparent 100%
-    );
+    inset: 0;
+    height: auto;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(10, 12, 12, 0.15) 0%,
+        rgba(10, 12, 12, 0.45) 55%,
+        rgba(10, 12, 12, 0.85) 100%
+      );
   }
 
   .hero::before {
@@ -1369,9 +1379,12 @@ fieldset {
     z-index: 3;
     max-width: none;
     width: 100%;
-    padding: 1.75rem 1.15rem 2.25rem;
+    padding: 2rem 1.15rem 2.5rem;
     margin: 0;
-    background: linear-gradient(180deg, #1a1f1d 0%, #121615 100%);
+    text-align: center;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% 0%, rgba(40, 48, 45, 0.9) 0%, transparent 55%),
+      linear-gradient(180deg, #141918 0%, #0d100f 55%, #0a0c0b 100%);
   }
 
   .hero__eyebrow {
@@ -1390,17 +1403,20 @@ fieldset {
 
   .hero__subtitle {
     font-size: 1rem;
-    margin-bottom: 1.5rem;
+    margin: 0 auto 1.5rem;
     max-width: none;
   }
 
   .hero__cta {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 0.75rem;
   }
 
   .hero__cta .btn {
     width: 100%;
+    max-width: 360px;
   }
 
   .hero__cta .btn--outline {
@@ -1455,25 +1471,14 @@ fieldset {
   }
 
   .highlight-card {
-    display: grid;
-    grid-template-columns: 44px 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 0.9rem;
-    row-gap: 0.2rem;
-    text-align: left;
-    padding: 1.15rem 1.1rem;
+    text-align: center;
+    padding: 1.35rem 1.15rem;
   }
 
   .highlight-card__icon {
-    grid-row: 1 / span 2;
-    align-self: center;
-    margin: 0;
+    margin: 0 auto 0.85rem;
     width: 40px;
     height: 40px;
-  }
-
-  .highlight-card h3 {
-    margin-bottom: 0;
   }
 
   .services__grid {
@@ -1483,15 +1488,18 @@ fieldset {
 
   .service-item {
     padding: 1rem 1.15rem;
+    text-align: center;
   }
 
   .reviews__links {
     flex-direction: column;
+    align-items: center;
     gap: 0.85rem;
   }
 
   .review-link {
     width: 100%;
+    max-width: 360px;
     justify-content: center;
   }
 
@@ -1502,6 +1510,30 @@ fieldset {
   .footer__grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .footer__brand,
+  .footer__brand p {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer .logo,
+  .logo--footer {
+    justify-content: center;
+  }
+
+  .footer__social-links {
+    justify-content: center;
+  }
+
+  .footer ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .gallery-page {
@@ -1510,7 +1542,7 @@ fieldset {
   }
 
   .gallery-page__header {
-    text-align: left;
+    text-align: center;
     margin-bottom: 1.75rem;
   }
 
