@@ -818,10 +818,38 @@ button {
   color: var(--color-text-muted);
 }
 
+.footer__brand-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .footer__brand p {
   margin-top: 1rem;
   font-size: 0.9rem;
   max-width: 280px;
+}
+
+.footer__bbb {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.footer__bbb:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+  color: inherit;
+}
+
+.footer__bbb img {
+  display: block;
+  width: 120px;
+  height: auto;
 }
 
 .footer h4 {
@@ -1535,6 +1563,10 @@ fieldset {
     max-width: 320px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .footer__brand-top {
+    justify-content: center;
   }
 
   .footer .logo,
