@@ -493,6 +493,10 @@ button {
   display: block;
 }
 
+.hero__title-main {
+  white-space: nowrap;
+}
+
 .hero__title-sub {
   margin-top: 0.2em;
   font-size: 0.72em;
@@ -1392,8 +1396,12 @@ fieldset {
   }
 
   .hero__title {
-    font-size: clamp(1.85rem, 8.2vw, 2.55rem);
+    font-size: clamp(1.35rem, 6.8vw, 2.35rem);
     margin-bottom: 0.85rem;
+  }
+
+  .hero__title-main {
+    white-space: nowrap;
   }
 
   .hero__title-sub {
