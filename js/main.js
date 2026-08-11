@@ -13,6 +13,29 @@
     test.src = img.getAttribute('src');
   });
 
+  // Homepage "Our Work" preview — fill only if markup is empty (static HTML is preferred)
+  const workPreview = document.getElementById('work-gallery-preview');
+  if (
+    workPreview &&
+    !workPreview.children.length &&
+    Array.isArray(window.GALLERY_IMAGES) &&
+    window.GALLERY_IMAGES.length
+  ) {
+    window.GALLERY_IMAGES.slice(0, 6).forEach((src, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery__item';
+
+      const image = document.createElement('img');
+      image.src = src;
+      image.alt = `Sunset Sky Landscape project ${i + 1}`;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+
+      item.appendChild(image);
+      workPreview.appendChild(item);
+    });
+  }
+
   // Hero video
   const heroVideo = document.getElementById('hero-video');
   const heroPoster = document.getElementById('hero-poster');
@@ -201,21 +224,41 @@
     });
   }
 
-  // Scroll reveal
+  // Scroll reveal — only hide content after observer is ready (avoids blank page if JS fails)
   const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal--visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-  );
+  const showReveal = (el) => el.classList.add('reveal--visible');
 
-  revealEls.forEach((el) => observer.observe(el));
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            showReveal(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
+    );
+
+    // Mark in-view sections visible before enabling hide, so first paint never blanks
+    const viewportH = window.innerHeight || document.documentElement.clientHeight;
+    revealEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < viewportH && rect.bottom > 0) showReveal(el);
+      observer.observe(el);
+    });
+    document.documentElement.classList.add('js-reveal');
+
+    // Safety: never leave sections permanently hidden
+    window.setTimeout(() => {
+      revealEls.forEach((el) => {
+        if (!el.classList.contains('reveal--visible')) showReveal(el);
+      });
+    }, 2000);
+  } else {
+    revealEls.forEach(showReveal);
+  }
 
   // Mobile quote bar
   const mobileBar = document.createElement('div');

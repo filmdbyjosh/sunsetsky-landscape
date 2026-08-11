@@ -254,6 +254,44 @@ button {
   z-index: 1;
 }
 
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+.header__brand .logo {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.header__bbb {
+  position: relative;
+  z-index: 2;
+  display: block;
+  flex-shrink: 0;
+  line-height: 0;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.header__bbb:hover {
+  opacity: 0.9;
+  color: inherit;
+}
+
+.header__bbb img {
+  display: block;
+  height: 38px;
+  width: auto;
+  max-width: none;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -821,8 +859,11 @@ button {
 .footer__brand-top {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
 }
 
 .footer__brand p {
@@ -831,25 +872,32 @@ button {
   max-width: 280px;
 }
 
-.footer__bbb {
-  display: inline-block;
-  line-height: 0;
-  border-radius: 8px;
+.footer__brand-top .logo {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
-  box-shadow: var(--shadow-soft);
-  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.footer__bbb {
+  position: relative;
+  z-index: 2;
+  display: block;
+  flex-shrink: 0;
+  line-height: 0;
+  cursor: pointer;
+  transition: opacity var(--transition);
 }
 
 .footer__bbb:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lift);
+  opacity: 0.9;
   color: inherit;
 }
 
 .footer__bbb img {
   display: block;
-  width: 120px;
-  height: auto;
+  height: 48px;
+  width: auto;
+  max-width: none;
 }
 
 .footer h4 {
@@ -919,12 +967,14 @@ button {
   padding: 1.5rem;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity var(--transition), visibility var(--transition);
 }
 
 .modal--open {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .modal__backdrop {
@@ -1257,16 +1307,29 @@ fieldset {
 .lightbox__nav--prev { left: 1.5rem; }
 .lightbox__nav--next { right: 1.5rem; }
 
-/* Reveal animations */
+/* Reveal animations — visible by default; JS adds .js-reveal only after observer is ready */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js-reveal .reveal {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.reveal--visible {
+html.js-reveal .reveal--visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Responsive */
@@ -1338,6 +1401,10 @@ fieldset {
 
   .nav-toggle {
     display: flex;
+  }
+
+  .header__bbb img {
+    height: 32px;
   }
 
   .nav-toggle--open span:nth-child(1) {
@@ -1649,4 +1716,59 @@ fieldset {
   .hero__title {
     font-size: clamp(1.95rem, 10vw, 2.55rem);
   }
+}
+
+/* GTS Media House credit — quiet continuation under light footer */
+
+.gts-credit {
+  padding: 0 1.5rem 1.15rem;
+  text-align: center;
+  background: transparent;
+  font-family: var(--font-body);
+}
+
+.gts-credit__line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+  margin: 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.gts-credit__label {
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.gts-credit__label::after {
+  content: '';
+  display: inline-block;
+  width: 2.5px;
+  height: 2.5px;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.38;
+  vertical-align: middle;
+}
+
+.gts-credit__brand {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  opacity: 0.62;
+  text-decoration: none;
+  transition: color var(--transition), opacity var(--transition);
+}
+
+.gts-credit__brand:hover {
+  color: var(--color-accent);
+  opacity: 1;
 }
