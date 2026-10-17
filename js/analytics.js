@@ -1,14 +1,13 @@
 /**
- * Google Analytics 4
- * Replace G-XXXXXXXXXX with your Measurement ID from analytics.google.com
- * https://analytics.google.com → Admin → Data Streams → your site → Measurement ID
+ * Google Analytics 4 — Sunset Sky Landscape
+ * Measurement ID from Google tag (gtag.js)
  */
 (function () {
   'use strict';
 
-  const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+  const GA_MEASUREMENT_ID = 'G-G90RJMZ3ZV';
 
-  if (!GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return;
+  if (!GA_MEASUREMENT_ID) return;
 
   const script = document.createElement('script');
   script.async = true;
