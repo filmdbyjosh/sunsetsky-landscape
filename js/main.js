@@ -26,10 +26,14 @@
       item.className = 'gallery__item';
 
       const image = document.createElement('img');
-      image.src = src;
-      image.alt = `Sunset Sky Landscape project ${i + 1}`;
+      const displaySrc = src.replace(/\.webp$/, '-960.webp');
+      image.src = displaySrc;
+      image.srcset = `${displaySrc} 960w, ${src} 1600w`;
+      image.sizes = '(max-width: 768px) 100vw, 360px';
+      image.alt = (window.GALLERY_ALTS && window.GALLERY_ALTS[i]) || `Sunset Sky Landscape project ${i + 1}`;
       image.loading = 'lazy';
       image.decoding = 'async';
+      image.fetchPriority = 'low';
 
       item.appendChild(image);
       workPreview.appendChild(item);
@@ -41,21 +45,36 @@
   const heroPoster = document.getElementById('hero-poster');
 
   if (heroVideo && heroPoster) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const showVideo = () => {
       heroVideo.classList.add('hero__video--ready');
       heroPoster.classList.add('hero__poster--hidden');
       heroVideo.play().catch(() => {});
     };
 
-    heroVideo.addEventListener('loadeddata', showVideo, { once: true });
-    heroVideo.addEventListener('canplay', showVideo, { once: true });
     heroVideo.addEventListener('error', () => {
       heroVideo.classList.remove('hero__video--ready');
       heroPoster.classList.remove('hero__poster--hidden');
     });
 
-    heroVideo.load();
-    showVideo();
+    if (!reduceMotion) {
+      const startHero = () => {
+        heroVideo.muted = true;
+        heroVideo.playsInline = true;
+        heroVideo.preload = 'metadata';
+        heroVideo.src = 'assets/hero-optimized.mp4';
+        heroVideo.addEventListener('loadeddata', showVideo, { once: true });
+        heroVideo.addEventListener('canplay', showVideo, { once: true });
+        heroVideo.load();
+      };
+
+      if (document.readyState === 'complete') {
+        window.setTimeout(startHero, 0);
+      } else {
+        window.addEventListener('load', () => window.setTimeout(startHero, 0), { once: true });
+      }
+    }
   }
 
   // Mobile nav

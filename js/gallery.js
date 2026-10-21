@@ -2,6 +2,7 @@
   'use strict';
 
   const GALLERY_IMAGES = window.GALLERY_IMAGES || [];
+  const GALLERY_ALTS = window.GALLERY_ALTS || [];
   const galleryGrid = document.getElementById('gallery-grid');
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image');
@@ -34,19 +35,28 @@
     item.className = 'gallery__item';
 
     const image = document.createElement('img');
-    image.src = src;
-    image.alt = `Sunset Sky Landscape project ${i + 1}`;
-    image.loading = i < 12 ? 'eager' : 'lazy';
+    const displaySrc = src.replace(/\.webp$/, '-960.webp');
+    image.src = displaySrc;
+    image.srcset = `${displaySrc} 960w, ${src} 1600w`;
+    image.sizes = '(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 280px';
+    image.alt = altFor(i);
+    image.loading = i < 4 ? 'eager' : 'lazy';
     image.decoding = 'async';
+    if (i > 0) image.fetchPriority = 'low';
 
     item.appendChild(image);
     item.addEventListener('click', () => openLightbox(i));
     galleryGrid.appendChild(item);
   });
 
+  function altFor(index) {
+    return GALLERY_ALTS[index] || `Sunset Sky Landscape project ${index + 1}`;
+  }
+
   function openLightbox(index) {
     currentImageIndex = index;
     lightboxImage.src = GALLERY_IMAGES[index];
+    lightboxImage.alt = altFor(index);
     lightbox.classList.add('lightbox--open');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -61,6 +71,7 @@
   function navigateLightbox(dir) {
     currentImageIndex = (currentImageIndex + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length;
     lightboxImage.src = GALLERY_IMAGES[currentImageIndex];
+    lightboxImage.alt = altFor(currentImageIndex);
   }
 
   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
