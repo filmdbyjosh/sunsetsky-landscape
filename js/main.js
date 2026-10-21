@@ -230,6 +230,13 @@
         quoteForm.reset();
         showFormSuccess();
         setTimeout(closeQuoteModal, 5000);
+
+        // One event per confirmed Formspree success. No customer details.
+        if (typeof window.gtag === 'function') {
+          try {
+            window.gtag('event', 'ads_conversion_Form_1');
+          } catch (ignore) {}
+        }
       } catch (err) {
         formStatus.textContent = 'Something went wrong. Please call us at (520) 664-7057.';
         formStatus.className = 'form-note form-note--error';
