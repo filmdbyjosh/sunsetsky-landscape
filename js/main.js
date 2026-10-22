@@ -30,7 +30,7 @@
       image.src = displaySrc;
       image.srcset = `${displaySrc} 960w, ${src} 1600w`;
       image.sizes = '(max-width: 768px) 100vw, 360px';
-      image.alt = (window.GALLERY_ALTS && window.GALLERY_ALTS[i]) || `Sunset Sky Landscape project ${i + 1}`;
+      image.alt = (window.GALLERY_ALTS && window.GALLERY_ALTS[i]) || `Sunset Sky Landscape & Design project ${i + 1}`;
       image.loading = 'lazy';
       image.decoding = 'async';
       image.fetchPriority = 'low';
@@ -204,7 +204,7 @@
         contact_pref: data.get('contact_pref'),
         message: data.get('message'),
         _replyto: data.get('email'),
-        _subject: 'New Quote Request — Sunset Sky Landscape',
+        _subject: 'New Quote Request — Sunset Sky Landscape & Design',
       };
 
       const defaultLabel = submitBtn ? submitBtn.textContent : '';

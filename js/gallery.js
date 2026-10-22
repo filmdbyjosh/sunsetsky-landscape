@@ -50,7 +50,7 @@
   });
 
   function altFor(index) {
-    return GALLERY_ALTS[index] || `Sunset Sky Landscape project ${index + 1}`;
+    return GALLERY_ALTS[index] || `Sunset Sky Landscape & Design project ${index + 1}`;
   }
 
   function openLightbox(index) {

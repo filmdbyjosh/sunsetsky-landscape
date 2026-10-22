@@ -1,5 +1,5 @@
 /**
- * Google Analytics 4 — Sunset Sky Landscape
+ * Google Analytics 4 — Sunset Sky Landscape & Design
  * Measurement ID from Google tag (gtag.js)
  */
 (function () {
